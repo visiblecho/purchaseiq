@@ -3,35 +3,27 @@ export const ReceiptSchema = {
   "title": "Receipt",
   "type": "object",
   "properties": {
-    "datetime": {
-      "type": "object",
-      "properties": {
-        "raw": { "type": "string" },
-        "iso_8601": { "type": "string" },
-        "timezone": { "type": "string" }
-      },
-      "required": ["raw", "iso_8601", "timezone"]
-    },
+    "datetime_raw": { "type": "string" },
+    "datetime_iso_8601": { "type": "string" },
+    "datetime_timezone": { "type": "string" },
 
-    "currency": {
-      "type": "object",
-      "properties": {
-        "primary": { "type": "string" },
-        "secondary": { "type": "string" },
-        "exchange_rate": { "type": "number" },
-        "symbol": { "type": "string" }
-      },
-      "required": ["primary", "symbol"]
-    },
+    "currency_primary": { "type": "string" },
+    "currency_secondary": { "type": "string" },
+    "currency_exchange_rate": { "type": "number" },
+    "currency_symbol": { "type": "string" },
 
-    "store": {
-      "type": "object",
-      "properties": {
-        "name": { "type": "string" },
-        "address": { "type": "string" }
-      },
-      "required": ["name"]
-    },
+    "store_name": { "type": "string" },
+    "store_street": { "type": "string" },
+    "store_number": { "type": "string" },
+    "store_zip": { "type": "string" },
+    "store_city": { "type": "string" },
+    "store_country": { "type": "string" },
+
+    "total_subtotal": { "type": "number" },
+    "total_tax": { "type": "number" },
+    "total_price": { "type": "number" },
+
+    "payment_method": { "type": "string" },
 
     "items": {
       "type": "array",
@@ -39,46 +31,30 @@ export const ReceiptSchema = {
         "type": "object",
         "properties": {
           "description": { "type": "string" },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
           "raw_entry": { "type": "string" },
           "quantity": { "type": "number" },
           "price_per_unit": { "type": "number" },
           "total_price": { "type": "number" }
         },
-        "required": ["description", "quantity", "price_per_unit", "total_price"]
+        "required": ["description", "tags", "raw_entry", "quantity", "price_per_unit", "total_price"]
       }
-    },
-
-    "totals": {
-      "type": "object",
-      "properties": {
-        "subtotal": { "type": "number" },
-        "total_tax": { "type": "number" },
-        "total_price": { "type": "number" }
-      },
-      "required": ["total_price"]
-    },
-
-    "payment": {
-      "type": "object",
-      "properties": {
-        "method": { "type": "string" },
-        "amount_paid": { "type": "number" },
-        "change_given": { "type": "number" }
-      },
-      "required": ["method", "amount_paid"]
-    },
-
-    "footer": {
-      "type": "object",
-      "properties": {
-        "messages": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "receipt_number": { "type": "string" }
-      },
-      "required": []
     }
   },
-  "required": ["datetime", "currency", "store", "items", "totals", "payment"]
+  "required": [
+    "datetime_raw",
+    "datetime_iso_8601",
+    "datetime_timezone",
+    "currency_primary",
+    "currency_symbol",
+    "store_name",
+    "store_city",
+    "store_country",
+    "total_price",
+    "payment_method",
+    "items"
+  ]
 }

@@ -1,141 +1,8 @@
 import OpenAI from 'openai'
-import fs from "fs"
 import 'dotenv/config'
+import fs from "fs"
+
 import { ReceiptSchema } from './model.js'
-
-
-/*
-const jsonSchema = `
-{
-  "datetime": {
-    "raw": "3.12.2025 8:01",
-    "iso_8601": "2025-12-03T08:01:00+01:00",
-    "timezone": "Europe/Berlin"
-  },
-
-  "currency": {
-    "primary": "EUR",
-    "secondary": null,
-    "exchange_rate": null,
-    "symbol": "€"
-  },
-
-  "store": {
-    "name": null,
-    "address": null,
-
-    "identifiers": {
-      "vat_id": null,           // EU, UK VAT number
-      "company_number": null,   // UK Companies House number
-      "ein": null,              // US EIN
-      "abn": null,              // Australia Business Number
-      "gstin": null,            // India GST ID
-      "tax_id_other": null      // Any local/tax number
-    },
-
-    "contact": {
-      "phone": null,
-      "email": null,
-      "website": null
-    },
-
-    "additional_info": {}
-  },
-
-  "items": [
-    {
-      "description": null,
-      "raw_entry": null,
-
-      "quantity": null,
-      "price_per_unit": null,
-      "total_price": null,
-
-      "identifiers": {
-        "sku": null,
-        "upc": null,
-        "ean": null,
-        "plu": null,
-        "internal_code": null
-      },
-
-      "tax": {
-        "rate": null,
-        "amount": null,
-        "type": null       // "VAT", "SalesTax", "GST", etc.
-      }
-    }
-  ],
-
-  "taxes": {
-    "model": "VAT",            // VAT | SalesTax | GST | Mixed | Unknown
-
-    "line_items": [
-      {
-        "tax_rate": null,
-        "tax_amount": null,
-        "net_amount": null,
-        "tax_type": "VAT"      // VAT or SalesTax etc.
-      }
-    ],
-
-    "total_tax": null
-  },
-
-  "totals": {
-    "subtotal": null,
-    "discounts": null,
-    "service_charge": null,
-    "rounding": null,
-
-    "total_before_tax": null,    
-    "total_tax": null,
-    "total_price": null
-  },
-
-  "payment": {
-    "method": null,        // cash | card | mobile | voucher | mixed | unknown
-
-    "amount_paid": null,
-    "change_given": null,
-
-    "currency": {
-      "payment_currency": null,   // e.g. paid in USD, receipt in EUR
-      "payment_amount_original": null,
-      "exchange_rate": null
-    },
-
-    "card": {
-      "brand": null,
-      "last4": null,
-      "auth_code": null,
-      "transaction_id": null
-    },
-
-    "tip": {
-      "amount": null,
-      "percentage": null
-    }
-  },
-
-  "transaction_details": {
-    "transaction_ids": [],
-    "terminal_id": null,
-    "register": null,
-    "cashier": {
-      "name": null,
-      "id": null
-    }
-  },
-
-  "footer": {
-    "messages": [],
-    "return_policy": null,
-    "additional_info": {}
-  }
-}
-`
-*/
 
 // Create the OpenAI client
 const openai = new OpenAI({
@@ -144,7 +11,7 @@ const openai = new OpenAI({
 
 // Uploade the receipt file
 const receipt = await openai.files.create({
-  file: fs.createReadStream("./receipts/receipt-1.jpg"),
+  file: fs.createReadStream("./receipts/receipt-2.jpg"),
   purpose: "vision"
 });
 
@@ -154,25 +21,39 @@ const start = Date.now()
 // Call OpenAI
 const response = await openai.responses.create({
   model: 'gpt-4.1-mini',
-  
-  // The actual prompt
   input: [
     {
       role: 'developer',
-      content: `You are an expert for cosnumer receipts.
+      content: [
+        { type: 'input_text',
+          text: `You are an expert for cosnumer receipts.
         You know all formats: all industries, all countries, everything.
         You can extract all relevant information from the image of an receipt.
-        You ALWAYS and ONLY and STRICTLY in the following JSON format.
-        You avoid surrounding backticks and similar: plain JSON.
-        You provide ACCURATE and PRECISE information. If you don't know the information, you respind with unknown.`
-    },
-    {
-      role: 'developer',
-      content: JSON.stringify(ReceiptSchema),
-    },
-    {
-        role: 'developer',
-        content: 'If the provided input is not an image of a receipt, abort processing and return an error.'
+        You provide ACCURATE and PRECISE information.
+        If you don't know a piece of information, you respond with unknown (instead of making it up).`,
+        },
+        {type: 'input_text',
+          text: `You respond ALWAYS in JSON format.
+        You send plain JSON (no backticks or similar).
+        You validate that the JSON is well-formed before returning it.
+        You STRICTLY comply with the following JSON schema. `,
+        },
+        { type: 'input_text',
+          text: JSON.stringify(ReceiptSchema),
+        },
+{ type: 'input_text',
+          text: `When asked for tags, make some best guesses from the raw_entry you have.
+          Leverage information you can find e.g. from the manufacturer.
+          Example: Bio E.Fettar 1,25 x 2 --> food organic feta cheese
+          Example: Harry Unser Mildes --> food bread
+          Example: Iglo Ofengemü --> food frozen oven vegetables
+          Infer the language of tags from the receipt's primary language`,
+        },
+
+        { type: 'input_text',
+          text: `If the provided input is not an image of a receipt, abort processing and return an error.`,
+        }
+      ]
     },
     {
       role: 'user',
