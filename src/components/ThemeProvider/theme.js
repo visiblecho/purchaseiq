@@ -1,5 +1,7 @@
 import { createTheme } from '@mui/material/styles'
 
+const baseTypography = { fontFamily: "'Inter', sans-serif" }
+
 export const lightTheme = createTheme({
   palette: {
     mode: 'light',
@@ -14,6 +16,7 @@ export const lightTheme = createTheme({
     success: { main: '#28A745' },
     warning: { main: '#DC3545' },
   },
+  typography: baseTypography,
   components: {
     MuiCard: {
       styleOverrides: {
@@ -39,6 +42,7 @@ export const darkTheme = createTheme({
     success: { main: '#28A745' },
     warning: { main: '#DC3545' },
   },
+  typography: baseTypography,
   components: {
     MuiCard: {
       styleOverrides: {
@@ -64,6 +68,7 @@ export const neutralTheme = createTheme({
     success: { main: '#28A745' },
     warning: { main: '#DC3545' },
   },
+  typography: baseTypography,
   components: {
     MuiCard: {
       styleOverrides: {
