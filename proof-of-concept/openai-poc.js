@@ -11,7 +11,7 @@ const openai = new OpenAI({
 
 // Uploade the receipt file
 const receipt = await openai.files.create({
-  file: fs.createReadStream('./receipts/receipt-2.jpg'),
+  file: fs.createReadStream('./receipts/receipt-1.jpg'),
   purpose: 'vision',
 })
 

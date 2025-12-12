@@ -27,7 +27,7 @@ export default defineConfig([
       },
     },
     plugins: {
-      prettier: prettierPlugin,  // ⬅️ add plugin
+      prettier: prettierPlugin,
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
