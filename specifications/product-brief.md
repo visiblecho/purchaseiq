@@ -1,5 +1,5 @@
 
-![Logo](assets/purchaseiq-logo-256.png)
+![Logo](assets/purchaseiq-logo-small.png)
 
 # PurchaseIQ
 

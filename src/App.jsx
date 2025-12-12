@@ -1,25 +1,34 @@
 import React from 'react'
 import { Button, Typography, Card, Container, Stack } from '@mui/material'
 import { useTheme } from './components/ThemeProvider/ThemeProvider.jsx'
+import { useTranslation } from 'react-i18next'
 
 function App() {
   const { themeName, toggleTheme } = useTheme()
+  const { t, i18n } = useTranslation()
+
+  const changeLanguage = (lng) => i18n.changeLanguage(lng)
 
   return (
     <Container sx={{ mt: 5 }}>
       <Typography variant="h4" gutterBottom>
-        Current Theme: {themeName}
+        {t('greeting')}
       </Typography>
 
       <Stack direction="row" spacing={2} mb={4}>
+        <Button onClick={() => changeLanguage('en')}>English</Button>
+        <Button onClick={() => changeLanguage('es')}>Español</Button>
+      </Stack>
+
+      <Stack direction="row" spacing={2} mb={4}>
         <Button variant="contained" onClick={() => toggleTheme('light')}>
-          Light Fintech
+          {t('theme.light')}
         </Button>
         <Button variant="contained" onClick={() => toggleTheme('dark')}>
-          Premium Dark
+          {t('theme.dark')}
         </Button>
         <Button variant="contained" onClick={() => toggleTheme('neutral')}>
-          Neutral Minimal
+          {t('theme.neutral')}
         </Button>
       </Stack>
 
