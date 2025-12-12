@@ -7,11 +7,11 @@ export const lightTheme = createTheme({
     mode: 'light',
     primary: { main: '#FF8A00' },
     secondary: { main: '#006CD9' },
-    background: { default: '#F8F9FB', paper: '#FFFFFF' },
+    background: { default: '#F4F4F6', paper: '#FFFFFF' },
     text: {
-      primary: '#000000',
-      secondary: '#4A4F55',
-      disabled: '#9AA0A6',
+      primary: '#1A1A1A',
+      secondary: '#4A4A4A',
+      disabled: '#9E9E9E',
     },
     success: { main: '#28A745' },
     warning: { main: '#DC3545' },
@@ -21,8 +21,14 @@ export const lightTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundColor: '#F0F2F5',
+          backgroundColor: '#E7E9EC',
         },
+      },
+    },
+    MuiTooltip: {
+      defaultProps: {
+        enterDelay: 1000,
+        leaveDelay: 0,
       },
     },
   },
@@ -51,30 +57,10 @@ export const darkTheme = createTheme({
         },
       },
     },
-  },
-})
-
-export const neutralTheme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: { main: '#FF8A00' },
-    secondary: { main: '#006CD9' },
-    background: { default: '#F4F4F6', paper: '#FFFFFF' },
-    text: {
-      primary: '#1A1A1A',
-      secondary: '#4A4A4A',
-      disabled: '#9E9E9E',
-    },
-    success: { main: '#28A745' },
-    warning: { main: '#DC3545' },
-  },
-  typography: baseTypography,
-  components: {
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          backgroundColor: '#E7E9EC',
-        },
+    MuiTooltip: {
+      defaultProps: {
+        enterDelay: 1000,
+        leaveDelay: 0,
       },
     },
   },

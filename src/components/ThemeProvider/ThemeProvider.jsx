@@ -2,12 +2,11 @@ import React, { createContext, useContext, useState } from 'react'
 import { ThemeProvider as MUIThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 
-import { lightTheme, darkTheme, neutralTheme } from './theme.js'
+import { lightTheme, darkTheme } from './theme.js'
 
 const themes = {
   light: lightTheme,
   dark: darkTheme,
-  neutral: neutralTheme,
 }
 
 const ThemeContext = createContext()
