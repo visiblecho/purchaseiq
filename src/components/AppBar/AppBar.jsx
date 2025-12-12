@@ -80,8 +80,8 @@ const ResponsiveAppBar = () => {
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
               {pages.map((page) => (
-                <Tooltip title={page.tooltip}>
-                  <MenuItem key={page.label} onClick={handleCloseNavMenu}>
+                <Tooltip title={page.tooltip} key={page.label}>
+                  <MenuItem onClick={handleCloseNavMenu}>
                     <Typography sx={{ textAlign: 'center' }}>
                       {page.label}
                     </Typography>
@@ -108,9 +108,8 @@ const ResponsiveAppBar = () => {
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Tooltip title={page.tooltip}>
+              <Tooltip title={page.tooltip} key={page.label}>
                 <Button
-                  key={page.label}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: 'inherit', display: 'block' }}
                 >
@@ -143,8 +142,8 @@ const ResponsiveAppBar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <Tooltip title={setting.tooltip}>
-                  <MenuItem key={setting.label} onClick={handleCloseUserMenu}>
+                <Tooltip title={setting.tooltip} key={setting.label}>
+                  <MenuItem onClick={handleCloseUserMenu}>
                     <Typography sx={{ textAlign: 'center' }}>
                       {setting.label}
                     </Typography>
