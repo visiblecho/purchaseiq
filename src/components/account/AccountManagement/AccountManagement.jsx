@@ -1,9 +1,8 @@
-import { useState, useContext } from 'react'
+import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '../../../contexts/ThemeProvider/ThemeProvider.jsx'
 
 import {
-  Box,
   Paper,
   Stack,
   Typography,
@@ -18,42 +17,48 @@ import {
 
 import { UserContext } from '../../../contexts/UserContext.jsx'
 
-const SettingsSection = ({ children }) => {
-  return (
-    <Grid>
-      <Paper
-        sx={{
-          p: 2,
-          height: '100%',
-          width: '100%',
-          minWidth: 300,
-          display: 'flex',
-          flexDirection: 'column',
-          boxSizing: 'border-box',
-        }}
-      >
-        <Stack spacing={2}>{children}</Stack>
-      </Paper>
-    </Grid>
-  )
-}
+const SettingsSection = ({ children }) => (
+  <Grid item xs={12}>
+    <Paper
+      sx={{
+        p: 2,
+        width: '100%',
+        minWidth: 300,
+        display: 'flex',
+        flexDirection: 'column',
+        boxSizing: 'border-box',
+      }}
+    >
+      <Stack spacing={2}>{children}</Stack>
+    </Paper>
+  </Grid>
+)
 
 const AccountManagement = () => {
+  const { user, setUser } = useContext(UserContext)
   const { t, i18n } = useTranslation()
-  const [language, setLanguage] = useState('en_US')
-  const changeLanguage = (language) => {
-    setLanguage(language)
-    i18n.changeLanguage(language)
-  }
-
   const { themeName, toggleTheme } = useTheme()
-  const [theme, setTheme] = useState('light')
-  const changeTheme = (theme) => {
-    setTheme(theme)
-    toggleTheme(theme)
+
+  const changeLanguage = (language) => {
+    i18n.changeLanguage(language)
+    setUser((prev) => ({ ...prev, language }))
   }
 
-  const { user } = useContext(UserContext)
+  const changeTheme = (theme) => {
+    toggleTheme(theme)
+    setUser((prev) => ({ ...prev, theme }))
+  }
+
+  const languages = [
+    { code: 'en_US', label: t('accountManagement.english') },
+    { code: 'es_ES', label: t('accountManagement.spanish') },
+    { code: 'de_DE', label: t('accountManagement.german') },
+  ]
+
+  const themes = [
+    { code: 'light', label: t('accountManagement.light') },
+    { code: 'dark', label: t('accountManagement.dark') },
+  ]
 
   return (
     <>
@@ -61,7 +66,8 @@ const AccountManagement = () => {
         {t('accountManagement.accountSettings')}
       </Typography>
 
-      <Grid container spacing={2} sx={{ alignItems: 'stretch' }}>
+      <Grid container spacing={2} alignItems="stretch">
+        {/* Language & Theme */}
         <SettingsSection>
           <FormControl fullWidth>
             <InputLabel id="language-select-label">
@@ -69,19 +75,15 @@ const AccountManagement = () => {
             </InputLabel>
             <Select
               labelId="language-select-label"
-              value={language}
+              value={user.language}
               label={t('accountManagement.language')}
-              onChange={(event) => changeLanguage(event.target.value)}
+              onChange={(e) => changeLanguage(e.target.value)}
             >
-              <MenuItem value={'en_US'}>
-                {t('accountManagement.english')}
-              </MenuItem>
-              <MenuItem value={'es_ES'}>
-                {t('accountManagement.spanish')}
-              </MenuItem>
-              <MenuItem value={'de_DE'}>
-                {t('accountManagement.german')}
-              </MenuItem>
+              {languages.map((lang) => (
+                <MenuItem key={lang.code} value={lang.code}>
+                  {lang.label}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
 
@@ -91,43 +93,45 @@ const AccountManagement = () => {
             </InputLabel>
             <Select
               labelId="theme-select-label"
-              value={theme}
+              value={user.theme || themeName}
               label={t('accountManagement.theme')}
-              onChange={(event) => changeTheme(event.target.value)}
+              onChange={(e) => changeTheme(e.target.value)}
             >
-              <MenuItem value={'light'}>
-                {t('accountManagement.light')}
-              </MenuItem>
-              <MenuItem value={'dark'}>{t('accountManagement.dark')}</MenuItem>
+              {themes.map((t) => (
+                <MenuItem key={t.code} value={t.code}>
+                  {t.label}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </SettingsSection>
 
+        {/* User Info */}
         <SettingsSection>
-          <Stack spacing={2}>
-            <TextField
-              id="username"
-              label={t('accountManagement.username')}
-              variant="outlined"
-            />
-            <TextField
-              id="email"
-              label={t('accountManagement.email')}
-              variant="outlined"
-            />
-          </Stack>
+          <TextField
+            id="username"
+            label={t('accountManagement.username')}
+            variant="outlined"
+            value={user.username}
+            disabled
+          />
+          <TextField
+            id="email"
+            label={t('accountManagement.email')}
+            variant="outlined"
+            value={user.email}
+            disabled
+          />
         </SettingsSection>
 
-        {/* Paper 3: actions */}
+        {/* Actions */}
         <SettingsSection>
-          <Stack spacing={2}>
-            <Button variant="outlined" disabled sx={{ height: 56 }}>
-              {t('accountManagement.resetPassword')}
-            </Button>
-            <Button variant="outlined" disabled sx={{ height: 56 }}>
-              {t('accountManagement.deleteAccount')}
-            </Button>
-          </Stack>
+          <Button variant="outlined" disabled sx={{ height: 56 }}>
+            {t('accountManagement.resetPassword')}
+          </Button>
+          <Button variant="outlined" disabled sx={{ height: 56 }}>
+            {t('accountManagement.deleteAccount')}
+          </Button>
         </SettingsSection>
       </Grid>
     </>

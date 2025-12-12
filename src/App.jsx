@@ -15,7 +15,13 @@ function App() {
     <>
       <ResponsiveAppBar />
       <main>
-        <Container sx={{ mt: 5 }}>
+        <Container
+          sx={{
+            mt: 5,
+            // display: 'flex',
+            // justifyContent: 'center',
+          }}
+        >
           <Routes>
             <Route index element={<AboutView />} />
             <Route path="/sign-in" element={<SignIn />} />

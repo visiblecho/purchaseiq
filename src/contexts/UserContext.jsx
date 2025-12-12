@@ -6,15 +6,31 @@ const UserContext = createContext()
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(
     // getUserFromToken()
-    { name: 'Maria' },
+    {
+      username: 'Maria',
+      email: 'maria@gmail.com',
+      language: 'en_US',
+      theme: 'light',
+    },
   )
+
   const signOut = () => {
     // removeToken()
     setUser(null)
   }
 
+  const resetPassword = () => {
+    console.log('Reset password not implemented yet')
+  }
+
+  const deleteAccount = () => {
+    console.log('Delete account not implemented yet')
+  }
+
   return (
-    <UserContext.Provider value={{ user, setUser, signOut }}>
+    <UserContext.Provider
+      value={{ user, setUser, signOut, resetPassword, deleteAccount }}
+    >
       {children}
     </UserContext.Provider>
   )
