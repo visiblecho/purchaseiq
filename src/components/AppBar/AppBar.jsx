@@ -1,4 +1,6 @@
 import * as React from 'react'
+import { Link } from 'react-router'
+
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
@@ -14,11 +16,18 @@ import MenuItem from '@mui/material/MenuItem'
 import ReceiptIcon from '@mui/icons-material/Receipt'
 
 const pages = [
-  { label: 'Data', tooltip: 'Capture and review receipts' },
-  { label: 'Insights', tooltip: 'Understand purchasing behaviour' },
-  { label: 'About', tooltip: 'Learn more about PurchasIQ' },
+  { label: 'Data', tooltip: 'Capture and review receipts', path: '/data' },
+  {
+    label: 'Insights',
+    tooltip: 'Understand purchasing behaviour',
+    path: '/insights',
+  },
+  { label: 'About', tooltip: 'Learn more about PurchasIQ', path: '/about' },
 ]
-const settings = [{ label: 'Logout', tooltip: 'Leave the private area' }]
+const settings = [
+  { label: 'Account', tooltip: 'Customize settings', path: '/account' },
+  { label: 'Sign out', tooltip: 'Leave the private area', path: '/sign-out' },
+]
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null)
@@ -81,7 +90,11 @@ const ResponsiveAppBar = () => {
             >
               {pages.map((page) => (
                 <Tooltip title={page.tooltip} key={page.label}>
-                  <MenuItem onClick={handleCloseNavMenu}>
+                  <MenuItem
+                    component={Link}
+                    to={page.path}
+                    onClick={handleCloseNavMenu}
+                  >
                     <Typography sx={{ textAlign: 'center' }}>
                       {page.label}
                     </Typography>
@@ -110,7 +123,8 @@ const ResponsiveAppBar = () => {
             {pages.map((page) => (
               <Tooltip title={page.tooltip} key={page.label}>
                 <Button
-                  onClick={handleCloseNavMenu}
+                  component={Link}
+                  to={page.path}
                   sx={{ my: 2, color: 'inherit', display: 'block' }}
                 >
                   {page.label}
@@ -122,7 +136,7 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Cornelius" src="/static/images/avatar/1.jpg" />
+                <Avatar />
               </IconButton>
             </Tooltip>
             <Menu
@@ -143,7 +157,11 @@ const ResponsiveAppBar = () => {
             >
               {settings.map((setting) => (
                 <Tooltip title={setting.tooltip} key={setting.label}>
-                  <MenuItem onClick={handleCloseUserMenu}>
+                  <MenuItem
+                    component={Link}
+                    to={setting.path}
+                    onClick={handleCloseUserMenu}
+                  >
                     <Typography sx={{ textAlign: 'center' }}>
                       {setting.label}
                     </Typography>

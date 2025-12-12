@@ -1,5 +1,5 @@
 const Receipts = () => {
-  return (<>Receipts</>)
+  return <>Receipts</>
 }
 
 export default Receipts
