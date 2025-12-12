@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState, useContext } from 'react'
 import { Link } from 'react-router'
 
 import AppBar from '@mui/material/AppBar'
@@ -15,6 +15,8 @@ import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import ReceiptIcon from '@mui/icons-material/Receipt'
 
+import { UserContext } from '../../contexts/UserContext'
+
 const pages = [
   { label: 'Data', tooltip: 'Capture and review receipts', path: '/data' },
   {
@@ -30,8 +32,10 @@ const settings = [
 ]
 
 const ResponsiveAppBar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null)
-  const [anchorElUser, setAnchorElUser] = React.useState(null)
+  const [anchorElNav, setAnchorElNav] = useState(null)
+  const [anchorElUser, setAnchorElUser] = useState(null)
+
+  const { user, signout } = useContext(UserContext)
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
@@ -136,7 +140,7 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar />
+                <Avatar>{user.name.charAt(0).toUpperCase()}</Avatar>
               </IconButton>
             </Tooltip>
             <Menu

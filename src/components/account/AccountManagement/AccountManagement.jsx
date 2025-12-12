@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useTheme } from '../../ThemeProvider/ThemeProvider.jsx'
+import { useTheme } from '../../../contexts/ThemeProvider/ThemeProvider.jsx'
 
 import {
   Box,
@@ -15,6 +15,8 @@ import {
   Grid,
   TextField,
 } from '@mui/material'
+
+import { UserContext } from '../../../contexts/UserContext.jsx'
 
 const SettingsSection = ({ children }) => {
   return (
@@ -50,6 +52,8 @@ const AccountManagement = () => {
     setTheme(theme)
     toggleTheme(theme)
   }
+
+  const { user } = useContext(UserContext)
 
   return (
     <>
