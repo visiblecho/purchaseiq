@@ -1,7 +1,9 @@
+import { useTranslation } from 'react-i18next'
 import { useUser } from '../../contexts/UserContext.jsx'
-import CircularProgress from '@mui/material/CircularProgress'
 
-import Receipts from '../Receipt/Receipt.jsx'
+import { CircularProgress } from '@mui/material'
+
+import Receipts from '../Receipts/Receipts.jsx'
 import SignIn from '../account/SignIn/SignIn.jsx'
 
 const DataView = () => {

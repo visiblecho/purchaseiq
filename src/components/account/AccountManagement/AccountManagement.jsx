@@ -1,6 +1,4 @@
-import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useTheme } from '../../../contexts/ThemeProvider/ThemeProvider.jsx'
 import { useUser } from '../../../contexts/UserContext.jsx'
 
 import {
@@ -14,10 +12,8 @@ import {
   Button,
   Grid,
   TextField,
-  CircularProgress
+  CircularProgress,
 } from '@mui/material'
-
-
 
 import SignIn from '../SignIn/SignIn.jsx'
 
@@ -71,7 +67,6 @@ const AccountManagement = () => {
       </Typography>
 
       <Grid container spacing={2} alignItems="stretch">
-
         <SettingsSection>
           <FormControl fullWidth>
             <InputLabel id="language-select-label">
