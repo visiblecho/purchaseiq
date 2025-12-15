@@ -31,9 +31,11 @@ export const UserProvider = ({ children }) => {
     setUser(null)
   }
 
-  const updateUser = (user) => {
-    // Store to database!
-    setUser(user)
+  const updateUser = async ( new_values ) => {
+    const new_user = {...user, ...new_values}
+    console.log(new_user)
+    setUser(new_user)
+    const res = await api.patch('/auth/me/', { new_user })
   }
 
   useEffect(() => {

@@ -23,7 +23,6 @@ export default function SignUp() {
         password,
       })
 
-      // auto-login after signup
       await login(username, password)
     } catch {
       setError('Sign up failed')

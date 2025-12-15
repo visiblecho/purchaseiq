@@ -43,11 +43,11 @@ const AccountManagement = () => {
   const { t } = useTranslation()
 
   const changeLanguage = (language) => {
-    updateUser((prev) => ({ ...prev, language }))
+    updateUser({ language })
   }
 
   const changeTheme = (theme) => {
-    updateUser((prev) => ({ ...prev, theme }))
+    updateUser({ theme })
   }
 
   const languages = [
