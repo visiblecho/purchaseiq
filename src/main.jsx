@@ -11,11 +11,11 @@ import { UserProvider } from './contexts/UserContext.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <UserProvider>
-        <ThemeProvider>
+      <ThemeProvider>
+        <UserProvider>
           <App />
-        </ThemeProvider>
-      </UserProvider>
+        </UserProvider>
+      </ThemeProvider>
     </BrowserRouter>
   </StrictMode>,
 )

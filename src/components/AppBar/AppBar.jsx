@@ -15,27 +15,27 @@ import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import ReceiptIcon from '@mui/icons-material/Receipt'
 
-import { UserContext } from '../../contexts/UserContext'
-
-const pages = [
-  { label: 'Data', tooltip: 'Capture and review receipts', path: '/data' },
-  {
-    label: 'Insights',
-    tooltip: 'Understand purchasing behaviour',
-    path: '/insights',
-  },
-  { label: 'About', tooltip: 'Learn more about PurchasIQ', path: '/about' },
-]
-const settings = [
-  { label: 'Account', tooltip: 'Customize settings', path: '/account' },
-  { label: 'Sign out', tooltip: 'Leave the private area', path: '/sign-out' },
-]
+import { useUser } from '../../contexts/UserContext'
 
 const ResponsiveAppBar = () => {
+  const pages = [
+    { label: 'Data', tooltip: 'Capture and review receipts', path: '/data' },
+    {
+      label: 'Insights',
+      tooltip: 'Understand purchasing behaviour',
+      path: '/insights',
+    },
+    { label: 'About', tooltip: 'Learn more about PurchasIQ', path: '/about' },
+  ]
+  const settings = [
+    { label: 'Account', tooltip: 'Customize settings', path: '/account' },
+    { label: 'Sign out', tooltip: 'Leave the private area', path: '/sign-out' },
+  ]
+
+  const { user } = useUser()
+
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
-
-  const { user, signout } = useContext(UserContext)
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
@@ -140,7 +140,7 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar>{user.username.charAt(0).toUpperCase()}</Avatar>
+                <Avatar>{user?.username.charAt(0).toUpperCase()}</Avatar>
               </IconButton>
             </Tooltip>
             <Menu

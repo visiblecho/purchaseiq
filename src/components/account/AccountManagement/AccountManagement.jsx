@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '../../../contexts/ThemeProvider/ThemeProvider.jsx'
+import { useUser } from '../../../contexts/UserContext.jsx'
 
 import {
   Paper,
@@ -13,12 +14,15 @@ import {
   Button,
   Grid,
   TextField,
+  CircularProgress
 } from '@mui/material'
 
-import { UserContext } from '../../../contexts/UserContext.jsx'
+
+
+import SignIn from '../SignIn/SignIn.jsx'
 
 const SettingsSection = ({ children }) => (
-  <Grid item xs={12}>
+  <Grid span={12}>
     <Paper
       sx={{
         p: 2,
@@ -35,18 +39,15 @@ const SettingsSection = ({ children }) => (
 )
 
 const AccountManagement = () => {
-  const { user, setUser } = useContext(UserContext)
-  const { t, i18n } = useTranslation()
-  const { themeName, toggleTheme } = useTheme()
+  const { user, loading, updateUser } = useUser()
+  const { t } = useTranslation()
 
   const changeLanguage = (language) => {
-    i18n.changeLanguage(language)
-    setUser((prev) => ({ ...prev, language }))
+    updateUser((prev) => ({ ...prev, language }))
   }
 
   const changeTheme = (theme) => {
-    toggleTheme(theme)
-    setUser((prev) => ({ ...prev, theme }))
+    updateUser((prev) => ({ ...prev, theme }))
   }
 
   const languages = [
@@ -60,6 +61,9 @@ const AccountManagement = () => {
     { code: 'dark', label: t('accountManagement.dark') },
   ]
 
+  if (loading) return <CircularProgress />
+  if (!user) return <SignIn />
+
   return (
     <>
       <Typography variant="h6" gutterBottom>
@@ -67,7 +71,7 @@ const AccountManagement = () => {
       </Typography>
 
       <Grid container spacing={2} alignItems="stretch">
-        {/* Language & Theme */}
+
         <SettingsSection>
           <FormControl fullWidth>
             <InputLabel id="language-select-label">
@@ -93,7 +97,7 @@ const AccountManagement = () => {
             </InputLabel>
             <Select
               labelId="theme-select-label"
-              value={user.theme || themeName}
+              value={user.theme}
               label={t('accountManagement.theme')}
               onChange={(e) => changeTheme(e.target.value)}
             >

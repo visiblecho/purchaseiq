@@ -1,5 +1,11 @@
+import { useUser } from '../../../contexts/UserContext.jsx'
+
 const SignOut = () => {
-  return <>This is the Sign Out</>
+  const { logout } = useUser()
+
+  logout()
+
+  return <>Logged out</>
 }
 
 export default SignOut

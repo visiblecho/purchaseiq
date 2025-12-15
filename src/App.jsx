@@ -9,6 +9,7 @@ import AccountManagement from './components/account/AccountManagement/AccountMan
 import DataView from './components/DataView/DataView.jsx'
 import InsightsView from './components/InsightsView/InsightsView.jsx'
 import NotFound from './components/NotFound/NotFound.jsx'
+import SignOut from './components/account/SignOut/SignOut.jsx'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route index element={<AboutView />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/sign-out" element={<SignOut />} />
             <Route path="/account" element={<AccountManagement />} />
             <Route path="/data" element={<DataView />} />
             <Route path="/insights" element={<InsightsView />} />

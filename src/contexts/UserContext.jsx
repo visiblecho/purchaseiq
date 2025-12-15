@@ -1,31 +1,66 @@
-import { createContext, useState } from 'react'
-import { getUserFromToken, removeToken } from '../utils/token.js'
+import { createContext, useContext, useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useTheme } from '../contexts/ThemeProvider/ThemeProvider.jsx'
 
-const UserContext = createContext()
+import api from '../utils/api.js'
+import { setAccessToken } from '../utils/token.js'
 
-const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(getUserFromToken())
+const UserContext = createContext(null)
+export const useUser = () => useContext(UserContext)
 
-  const signOut = () => {
-    removeToken()
+export const UserProvider = ({ children }) => {
+  const { toggleTheme } = useTheme()
+  const { i18n } = useTranslation()
+
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  const fetchUser = async () => {
+    const res = await api.get('/auth/me/')
+    setUser(res.data)
+  }
+
+  const login = async (username, password) => {
+    const res = await api.post('/auth/token/', { username, password })
+    setAccessToken(res.data.access)
+    await fetchUser()
+  }
+
+  const logout = () => {
+    setAccessToken(null)
     setUser(null)
   }
 
-  const resetPassword = () => {
-    console.log('Reset password not implemented yet')
+  const updateUser = (user) => {
+    // Store to database!
+    setUser(user)
   }
 
-  const deleteAccount = () => {
-    console.log('Delete account not implemented yet')
-  }
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const res = await api.post('/auth/token/refresh/')
+        setAccessToken(res.data.access)
+        await fetchUser()
+      } catch {
+        setUser(null)
+      } finally {
+        setLoading(false)
+      }
+    }
+    init()
+  }, [])
+
+  useEffect(() => {
+    if (user) {
+      toggleTheme(user.theme)
+      i18n.changeLanguage(user.language)
+    }
+  }, [user])
 
   return (
-    <UserContext.Provider
-      value={{ user, setUser, signOut, resetPassword, deleteAccount }}
-    >
+    <UserContext.Provider value={{ user, login, logout, loading, updateUser }}>
       {children}
     </UserContext.Provider>
   )
 }
-
-export { UserContext, UserProvider }
