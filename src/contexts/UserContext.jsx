@@ -1,21 +1,13 @@
 import { createContext, useState } from 'react'
-// import { getUserFromToken, removeToken } from "../utils/token";
+import { getUserFromToken, removeToken } from '../utils/token.js'
 
 const UserContext = createContext()
 
 const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(
-    // getUserFromToken()
-    {
-      username: 'Maria',
-      email: 'maria@gmail.com',
-      language: 'en_US',
-      theme: 'light',
-    },
-  )
+  const [user, setUser] = useState(getUserFromToken())
 
   const signOut = () => {
-    // removeToken()
+    removeToken()
     setUser(null)
   }
 
