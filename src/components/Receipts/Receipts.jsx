@@ -13,17 +13,17 @@ const Receipts = () => {
     <>
       <Box
         sx={{
+          display: 'flex',
+          flexDirection: 'column',
           border: '1px solid',
           borderColor: 'divider',
           borderRadius: 1,
-          m: 2,
           p: 2,
+          gap: 2,
         }}
       >
-        <Stack>
-          <UploadReceipt />
-          <ReceiptList />
-        </Stack>
+        <UploadReceipt />
+        <ReceiptList />
       </Box>
     </>
   )

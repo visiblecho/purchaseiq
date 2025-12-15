@@ -1,43 +1,46 @@
-import {
-  Box,
-  Stack,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from '@mui/material'
+import { useState } from 'react'
+
+import { Paper, List, ListItemButton, Box, Typography } from '@mui/material'
 import { ExpandMore } from '@mui/icons-material'
 
 import FilterReceiptList from './FilterReceiptList'
-import ReceiptDetail from './ReceiptDetail'
 
 const ReceiptList = () => {
+  const [selectedIndex, setSelectedIndex] = useState(0)
+
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index)
+  }
   return (
     <>
-      <Stack>
+      <Paper sx={{ p: 2 }}>
         <FilterReceiptList />
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMore />}
-            sx={{ fontSize: '1rem' }}
+        <List component="nav">
+          <ListItemButton
+            selected={selectedIndex === 0}
+            onClick={(event) => handleListItemClick(event, 0)}
           >
-            Sum
-          </AccordionSummary>
-          <AccordionDetails>
-            <ReceiptDetail />
-          </AccordionDetails>
-        </Accordion>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMore />}
-            sx={{ fontSize: '1rem' }}
-          >
-            Sum
-          </AccordionSummary>
-          <AccordionDetails>
-            <ReceiptDetail />
-          </AccordionDetails>
-        </Accordion>
-      </Stack>
+            <Box
+              sx={{
+                display: 'flex',
+                width: '100%',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Typography variant="body1" sx={{ textAlign: 'left', flex: 1 }}>
+                Dec 15
+              </Typography>
+              <Typography variant="body1" sx={{ textAlign: 'center', flex: 1 }}>
+                Supermarket
+              </Typography>
+              <Typography variant="body1" sx={{ textAlign: 'right', flex: 1 }}>
+                20.95€
+              </Typography>
+            </Box>
+          </ListItemButton>
+        </List>
+      </Paper>
     </>
   )
 }

@@ -12,7 +12,7 @@ const FilterReceiptList = () => {
         label="Filter terms"
         variant="outlined"
         fullWidth
-        sx={{ mb: 2 }}
+        disabled
       />
     </>
   )
