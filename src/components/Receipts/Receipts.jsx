@@ -1,14 +1,12 @@
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useUser } from '../../contexts/UserContext.jsx'
 
 import { CircularProgress, Paper, Stack, Box } from '@mui/material'
 
 import UploadReceipt from './UploadReceipt.jsx'
 import ReceiptList from './ReceiptList.jsx'
 
-const Receipts = () => {
-  const { user } = useUser()
-
+const Receipts = ({ receiptList, selectedReceiptId, setSelectedReceiptId }) => {
   return (
     <>
       <Box
@@ -23,7 +21,11 @@ const Receipts = () => {
         }}
       >
         <UploadReceipt />
-        <ReceiptList />
+        <ReceiptList
+          receiptList={receiptList}
+          selectedReceiptId={selectedReceiptId}
+          setSelectedReceiptId={setSelectedReceiptId}
+        />
       </Box>
     </>
   )

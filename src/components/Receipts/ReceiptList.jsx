@@ -1,44 +1,95 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { Paper, List, ListItemButton, Box, Typography } from '@mui/material'
+import { Paper, List, ListItemButton, Box, Typography, CircularProgress } from '@mui/material'
 import { ExpandMore } from '@mui/icons-material'
 
 import FilterReceiptList from './FilterReceiptList'
 
-const ReceiptList = () => {
-  const [selectedIndex, setSelectedIndex] = useState(0)
+const ReceiptList = ({
+  receiptList,
+  selectedReceiptId,
+  setSelectedReceiptId,
+}) => {
+  const [selectedIndex, setSelectedIndex] = useState(
+    receiptList.findIndex((item) => item.id === selectedReceiptId),
+  )
+
+  useEffect(() => {
+    if (selectedIndex) {
+      const receiptId = receiptList[selectedIndex].id
+      setSelectedReceiptId(receiptId)
+    }
+  }, [selectedIndex])
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index)
   }
+
+  if (!receiptList) return <CircularProgress />
+
   return (
     <>
       <Paper sx={{ p: 2 }}>
         <FilterReceiptList />
         <List component="nav">
-          <ListItemButton
-            selected={selectedIndex === 0}
-            onClick={(event) => handleListItemClick(event, 0)}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                width: '100%',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
+          {receiptList.map((receipt, index) => (
+            <ListItemButton
+              key={receipt.id}
+              selected={selectedIndex === index}
+              onClick={(event) => handleListItemClick(event, index)}
             >
-              <Typography variant="body1" sx={{ textAlign: 'left', flex: 1 }}>
-                Dec 15
-              </Typography>
-              <Typography variant="body1" sx={{ textAlign: 'center', flex: 1 }}>
-                Supermarket
-              </Typography>
-              <Typography variant="body1" sx={{ textAlign: 'right', flex: 1 }}>
-                20.95€
-              </Typography>
-            </Box>
-          </ListItemButton>
+              <Box
+                sx={{
+                  display: 'flex',
+                  width: '100%',
+                  // justifyContent: 'center',
+                  // alignItems: 'center',
+                }}
+              >
+                <Typography
+                  variant="body1"
+                  sx={{
+                    textAlign: 'left',
+                    flex: 1,
+                    fontVariantNumeric: 'tabular-nums',
+                  }}
+                >
+                  {new Date(receipt.datetime_parsed).toLocaleDateString(
+                    'en-US', // TODO: Depend on user's locale choice
+                    {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric',
+                    },
+                  )}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    textAlign: 'left',
+                    flex: 1,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {receipt.store_name}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    textAlign: 'right',
+                    flex: 1,
+                    fontVariantNumeric: 'tabular-nums',
+                  }}
+                >
+                  {`${receipt.currency_primary} ${receipt.total_price}`}
+                  
+                  
+                </Typography>
+              </Box>
+            </ListItemButton>
+          ))}
         </List>
       </Paper>
     </>

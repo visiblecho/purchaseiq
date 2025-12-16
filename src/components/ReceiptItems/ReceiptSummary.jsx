@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Paper, Button, ButtonGroup } from '@mui/material'
+import { Paper, Button, ButtonGroup, Typography, Box } from '@mui/material'
 
-const ReceiptSummary = () => {
+const ReceiptSummary = ({ receipt }) => {
   const [confirmDelete, setConfirmDelete] = useState(false)
 
   useEffect(() => {
     if (!confirmDelete) return
-
     const timer = setTimeout(() => {
       setConfirmDelete(false)
     }, 2500)
@@ -16,16 +15,80 @@ const ReceiptSummary = () => {
 
   return (
     <Paper sx={{ p: 2 }}>
-      Store Name Street Number, City, Country Date, Time Subtotal Tax Total
-      Payment
-      <ButtonGroup variant="text">
-        <Button>View</Button>
-        {confirmDelete ? (
-          <Button color="warning">Confirm</Button>
-        ) : (
-          <Button onClick={() => setConfirmDelete(true)}>Delete</Button>
-        )}
-      </ButtonGroup>
+      <Typography
+        noWrap
+        sx={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {receipt.store_name}
+      </Typography>
+
+      <Typography
+        noWrap
+        sx={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          fontVariantNumeric: 'tabular-nums',
+        }}
+      >
+        {`${receipt.store_street}, ${receipt.store_city}`}
+      </Typography>
+
+      <Typography
+        noWrap
+        sx={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          fontVariantNumeric: 'tabular-nums',
+        }}
+      >
+        {`${new Date(receipt.datetime_parsed).toLocaleDateString(
+          'en-US', // TODO: Depend on user's locale choice
+          {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          },
+        )}, ${new Date(receipt.datetime_parsed).toLocaleTimeString(
+          'en-US', // TODO: Depend on user's locale choice
+          {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+          },
+        )}`}
+      </Typography>
+
+      <Typography
+        noWrap
+        sx={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          fontVariantNumeric: 'tabular-nums',
+        }}
+      >
+        {`${receipt.currency_primary} ${receipt.total_price}, ${receipt.payment_method}`}
+      </Typography>
+
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <ButtonGroup variant="text">
+          <Button disabled>Map</Button>
+          <Button disabled>View</Button>
+          {confirmDelete ? (
+            <Button color="warning" disabled>
+              Confirm
+            </Button>
+          ) : (
+            <Button onClick={() => setConfirmDelete(true)}>Delete</Button>
+          )}
+        </ButtonGroup>
+      </Box>
     </Paper>
   )
 }

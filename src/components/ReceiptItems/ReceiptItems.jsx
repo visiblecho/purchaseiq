@@ -3,7 +3,7 @@ import { Box } from '@mui/material'
 import ReceiptSummary from './ReceiptSummary.jsx'
 import ReceiptItemList from './ReceiptItemList.jsx'
 
-const Receipts = () => {
+const ReceiptItems = ({ receipt }) => {
   return (
     <>
       <Box
@@ -17,11 +17,11 @@ const Receipts = () => {
           gap: 2,
         }}
       >
-        <ReceiptSummary />
-        <ReceiptItemList />
+        <ReceiptSummary receipt={receipt} />
+        <ReceiptItemList receipt={receipt} />
       </Box>
     </>
   )
 }
 
-export default Receipts
+export default ReceiptItems

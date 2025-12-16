@@ -3,6 +3,7 @@ import 'dotenv/config'
 import fs from 'fs'
 
 import { ReceiptSchema } from './model.js'
+import { Output } from '@mui/icons-material'
 
 // Create the OpenAI client
 const openai = new OpenAI({
@@ -11,7 +12,7 @@ const openai = new OpenAI({
 
 // Uploade the receipt file
 const receipt = await openai.files.create({
-  file: fs.createReadStream('./receipts/receipt-1.jpg'),
+  file: fs.createReadStream('./receipts/receipt-13.jpg'),
   purpose: 'vision',
 })
 
@@ -78,7 +79,8 @@ console.log(`Total tokens: ${response.usage.total_tokens} (${response.model})`)
 
 try {
   const data = JSON.parse(response.output_text)
-  console.log(data)
+  console.dir(data, { depth: null, colors: true })
+  console.log(response.output_text)
 } catch (error) {
   console.error(error)
   console.error(response.output_text)

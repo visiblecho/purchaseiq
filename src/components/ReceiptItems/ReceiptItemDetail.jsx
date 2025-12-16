@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { useUser } from '../../contexts/UserContext.jsx'
 
 import {
   Typography,
@@ -8,11 +7,20 @@ import {
   ButtonGroup,
 } from '@mui/material'
 
-const ReceiptItemDetails = () => {
-  const { user } = useUser()
+const ReceiptItemDetails = ({ item, currency }) => {
+  console.log(item)
   return (
     <>
-      <Typography sx={{ fontSize: '.875rem' }}>price per unit, tags, raw_entry</Typography>
+      <Typography>{`Raw: ${item.raw_entry}`}</Typography>
+
+      <Typography
+        sx={{ fontVariantNumeric: 'tabular-nums' }}
+      >{`Quantity: ${item.quantity}`}</Typography>
+      <Typography
+        sx={{ fontVariantNumeric: 'tabular-nums' }}
+      >{`Price/Unit: ${item.price_per_unit} ${currency}`}</Typography>
+      <Typography>{`Tags: ${item.tags}`}</Typography>
+
       <AccordionActions>
         <ButtonGroup variant="text">
           <Button>Edit</Button>
