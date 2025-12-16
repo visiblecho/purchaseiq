@@ -1,15 +1,14 @@
 import { useTranslation } from 'react-i18next'
-import { useUser } from '../../contexts/UserContext.jsx'
 
 import { Box, TextField } from '@mui/material'
 
 const FilterReceiptList = () => {
-  const { user } = useUser()
+  const { t } = useTranslation()
   return (
     <>
       <TextField
         id="filter-terms"
-        label="Filter terms"
+        label={t('filterReceiptList.filterTerms')}
         variant="outlined"
         fullWidth
         disabled

@@ -18,7 +18,7 @@ const ReceiptItemList = ({ receipt }) => {
   return (
     <Paper>
       {receipt.items.map((item) => (
-        <Accordion>
+        <Accordion key={item.id}>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <Box
               sx={{

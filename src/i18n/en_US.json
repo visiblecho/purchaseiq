@@ -12,5 +12,11 @@
     "email": "Email",
     "resetPassword": "Reset password",
     "deleteAccount": "Delete account"
+  },
+  "filterReceiptList": {
+    "filterTerms": "Filter terms"
+  },
+  "uploadReceipt": {
+    "drop": "Drop an image here or click to open"
   }
 }

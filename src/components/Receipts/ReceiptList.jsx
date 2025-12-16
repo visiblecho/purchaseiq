@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react'
 
-import { Paper, List, ListItemButton, Box, Typography, CircularProgress } from '@mui/material'
+import {
+  Paper,
+  List,
+  ListItemButton,
+  Box,
+  Typography,
+  CircularProgress,
+} from '@mui/material'
 import { ExpandMore } from '@mui/icons-material'
 
 import FilterReceiptList from './FilterReceiptList'
@@ -16,6 +23,7 @@ const ReceiptList = ({
 
   useEffect(() => {
     if (selectedIndex) {
+      // console.log('USE EFFECT -> ReceiptList on selectedIndex change')
       const receiptId = receiptList[selectedIndex].id
       setSelectedReceiptId(receiptId)
     }
@@ -84,8 +92,6 @@ const ReceiptList = ({
                   }}
                 >
                   {`${receipt.currency_primary} ${receipt.total_price}`}
-                  
-                  
                 </Typography>
               </Box>
             </ListItemButton>

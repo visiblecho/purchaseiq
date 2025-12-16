@@ -1,8 +1,17 @@
 import { useState, useEffect } from 'react'
 import { Paper, Button, ButtonGroup, Typography, Box } from '@mui/material'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 
 const ReceiptSummary = ({ receipt }) => {
   const [confirmDelete, setConfirmDelete] = useState(false)
+
+  const handleOpenMap = () => {
+    const address = `${receipt.store_name}, ${receipt.store_street}, ${receipt.store_city}, ${receipt.store_country}`
+    window.open(
+      `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`,
+      '_blank',
+    )
+  }
 
   useEffect(() => {
     if (!confirmDelete) return
@@ -78,8 +87,12 @@ const ReceiptSummary = ({ receipt }) => {
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <ButtonGroup variant="text">
-          <Button disabled>Map</Button>
-          <Button disabled>View</Button>
+          <Button onClick={handleOpenMap}>
+            Map <OpenInNewIcon fontSize="inherit" />
+          </Button>
+          <Button disabled>
+            View <OpenInNewIcon fontSize="inherit" />
+          </Button>
           {confirmDelete ? (
             <Button color="warning" disabled>
               Confirm

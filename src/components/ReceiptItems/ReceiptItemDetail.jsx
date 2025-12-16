@@ -8,7 +8,6 @@ import {
 } from '@mui/material'
 
 const ReceiptItemDetails = ({ item, currency }) => {
-  console.log(item)
   return (
     <>
       <Typography>{`Raw: ${item.raw_entry}`}</Typography>

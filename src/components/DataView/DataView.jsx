@@ -17,9 +17,11 @@ const DataView = () => {
   const [selectedReceiptId, setSelectedReceiptId] = useState(null)
   const [receipt, setReceipt] = useState([])
   const [errorData, setErrorData] = useState({})
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoadingReceipts, setIsLoadingReceipts] = useState(true)
+  const [isLoadingReceiptItems, setIsLoadingReceiptItems] = useState(true)
 
   useEffect(() => {
+    // console.log('USE EFFECT -> DataView on init')
     const getData = async () => {
       try {
         const { data } = await listReceipts()
@@ -29,13 +31,17 @@ const DataView = () => {
         console.log(error)
         setErrorData(error.response.data)
       } finally {
-        setTimeout(() => setIsLoading(false), 1000)
+        setIsLoadingReceipts(false)
       }
     }
     getData()
   }, [])
 
   useEffect(() => {
+    /* console.log(
+      'USE EFFECT -> DataView on selectedReceiptId change -> ',
+      selectedReceiptId,
+    )*/
     const getData = async () => {
       try {
         if (selectedReceiptId) {
@@ -46,13 +52,13 @@ const DataView = () => {
         console.log(error)
         setErrorData(error.response.data)
       } finally {
-        setTimeout(() => setIsLoading(false), 1000)
+        setIsLoadingReceiptItems(false)
       }
     }
     getData()
   }, [selectedReceiptId])
 
-  if (loading) return <CircularProgress />
+  if (isLoadingReceipts || isLoadingReceiptItems) return <CircularProgress />
   if (!user) return <SignIn />
 
   return (

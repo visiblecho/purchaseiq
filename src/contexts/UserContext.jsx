@@ -35,12 +35,12 @@ export const UserProvider = ({ children }) => {
 
   const updateUser = async (new_values) => {
     const new_user = { ...user, ...new_values }
-    console.log(new_user)
     setUser(new_user)
-    const res = await api.patch('/auth/me/', { ...new_user })
+    await api.patch('/auth/me/', { ...new_user })
   }
 
   useEffect(() => {
+    // console.log('USE EFFECT -> UserProvider on init')
     const init = async () => {
       try {
         const res = await api.post('/auth/token/refresh/')
@@ -57,6 +57,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     if (user) {
+      // console.log('USE EFFECT -> UserProvider on user change')
       toggleTheme(user.theme)
       i18n.changeLanguage(user.language)
     }

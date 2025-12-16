@@ -11,20 +11,20 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   const token = getAccessToken()
   if (token) config.headers.Authorization = `Bearer ${token}`
-  console.log('Request interceptor')
-  console.log(config.url)
+  // console.log('Request interceptor')
+  // console.log(config.url)
   return config
 })
 
 api.interceptors.response.use(
   (res) => {
-    console.log('Response Interceptor: Success')
-    console.log(res.data)
+    // console.log('Response Interceptor: Success')
+    // console.log(res.data)
     return res
   },
   async (err) => {
     const original = err.config
-    console.log('Response Interceptor: Failure')
+    // console.log('Response Interceptor: Failure')
 
     if (err.response?.status === 401 && !original._retry) {
       original._retry = true

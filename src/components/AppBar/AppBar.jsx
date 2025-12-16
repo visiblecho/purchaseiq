@@ -14,6 +14,7 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import ReceiptIcon from '@mui/icons-material/Receipt'
+import { CircularProgress } from '@mui/material'
 
 import { useUser } from '../../contexts/UserContext'
 
@@ -32,7 +33,7 @@ const ResponsiveAppBar = () => {
     { label: 'Sign out', tooltip: 'Leave the private area', path: '/sign-out' },
   ]
 
-  const { user } = useUser()
+  const { user, loading } = useUser()
 
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
@@ -51,6 +52,9 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
   }
+
+  if (loading) return <CircularProgress />
+  if (!user) return <SignIn />
 
   return (
     <AppBar position="static">
