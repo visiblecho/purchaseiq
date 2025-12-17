@@ -54,7 +54,7 @@ const ResponsiveAppBar = () => {
   }
 
   if (loading) return <CircularProgress />
-  if (!user) return <SignIn />
+  if (!user) return <></>
 
   return (
     <AppBar position="static">

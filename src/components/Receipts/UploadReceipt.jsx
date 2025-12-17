@@ -1,25 +1,38 @@
 import { useRef } from 'react'
 import { Paper } from '@mui/material'
 
-import { useTranslation } from 'react-i18next'
+import { uploadImage } from '../../utils/images.js'
 
 const UploadReceipt = () => {
-  const { t } = useTranslation()
-
   const fileInputRef = useRef(null)
 
   const handleClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click()
+    if (fileInputRef.current) fileInputRef.current.click()
+  }
+
+  const handleFileUpload = async (file) => {
+    try {
+      const imageUrl = await uploadImage(file)
+      console.log('Uploaded:', imageUrl)
+    } catch (error) {
+      console.log(error)
     }
   }
 
   const handleFileChange = (e) => {
-    const file = e.target.files?.[0]
-    if (!file) return
+    handleFileUpload(e.target.files?.[0])
+  }
 
-    console.log('Selected file:', file)
-    // TODO: Request pre-signed URL from backend and upload to S3
+  const handleDrop = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const file = e.dataTransfer.files[0]
+    handleFileUpload(file)
+  }
+
+  const handleDragOver = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
   }
 
   return (
@@ -29,11 +42,16 @@ const UploadReceipt = () => {
           p: 2,
           display: 'flex',
           justifyContent: 'center',
+          alignItems: 'center',
           cursor: 'pointer',
+          // border: '2px dashed gray',
+          // minHeight: '100px',
         }}
         onClick={handleClick}
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
       >
-        {t('uploadReceipt.drop')}
+        Drop a receipt image or click to upload
       </Paper>
 
       <input

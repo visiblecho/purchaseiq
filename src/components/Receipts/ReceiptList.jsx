@@ -8,9 +8,8 @@ import {
   Typography,
   CircularProgress,
 } from '@mui/material'
-import { ExpandMore } from '@mui/icons-material'
 
-import FilterReceiptList from './FilterReceiptList'
+// import FilterReceiptList from './FilterReceiptList'
 
 const ReceiptList = ({
   receiptList,
@@ -38,7 +37,7 @@ const ReceiptList = ({
   return (
     <>
       <Paper sx={{ p: 2 }}>
-        <FilterReceiptList />
+        {/* <FilterReceiptList /> */}
         <List component="nav">
           {receiptList.map((receipt, index) => (
             <ListItemButton
