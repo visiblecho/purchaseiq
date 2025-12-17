@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useTheme } from '../contexts/ThemeProvider/ThemeProvider.jsx'
 
 import api from '../utils/api.js'
-import { setAccessToken } from '../utils/token.js'
+
 
 const UserContext = createContext(null)
 export const useUser = () => useContext(UserContext)
@@ -22,12 +22,10 @@ export const UserProvider = ({ children }) => {
 
   const login = async (username, password) => {
     const res = await api.post('/auth/token/', { username, password })
-    setAccessToken(res.data.access)
     await fetchUser()
   }
 
   const logout = () => {
-    setAccessToken(null)
     setUser(null)
     toggleTheme('light')
     i18n.changeLanguage('en_US')
@@ -44,7 +42,6 @@ export const UserProvider = ({ children }) => {
     const init = async () => {
       try {
         const res = await api.post('/auth/token/refresh/')
-        setAccessToken(res.data.access)
         await fetchUser()
       } catch {
         setUser(null)
