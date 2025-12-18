@@ -12,8 +12,8 @@ const UploadReceipt = () => {
 
   const handleFileUpload = async (file) => {
     try {
-      const imageUrl = await uploadImage(file)
-      console.log('Uploaded:', imageUrl)
+      const uploaded = await uploadImage(file)
+      console.log('Uploaded:', uploaded)
     } catch (error) {
       console.log(error)
     }
