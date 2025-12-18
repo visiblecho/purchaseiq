@@ -2,8 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '../contexts/ThemeProvider/ThemeProvider.jsx'
 
-import api from '../utils/api.js'
-
+import { signIn, signOut, aboutMe, patchMe } from '../utils/auth.js'
 
 const UserContext = createContext(null)
 export const useUser = () => useContext(UserContext)
@@ -16,34 +15,32 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
 
   const fetchUser = async () => {
-    const res = await api.get('/auth/me/')
+    const res = await aboutMe()
     setUser(res.data)
   }
 
   const login = async (username, password) => {
-    const res = await api.post('/auth/token/', { username, password })
+    await signIn(username, password)
     await fetchUser()
   }
 
-  const logout = () => {
+  const logout = async () => {
+    await signOut()
     setUser(null)
-    toggleTheme('light')
-    i18n.changeLanguage('en_US')
   }
 
-  const updateUser = async (new_values) => {
-    const new_user = { ...user, ...new_values }
-    setUser(new_user)
-    await api.patch('/auth/me/', { ...new_user })
+  const updateUser = async (newValues) => {
+    const newUser = { ...user, ...newValues }
+    await patchMe(newUser)
+    setUser(newUser)
   }
 
   useEffect(() => {
-    // console.log('USE EFFECT -> UserProvider on init')
     const init = async () => {
       try {
-        const res = await api.post('/auth/token/refresh/')
         await fetchUser()
-      } catch {
+      } catch (error) {
+        console.log(error)
         setUser(null)
       } finally {
         setLoading(false)
@@ -54,9 +51,11 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     if (user) {
-      // console.log('USE EFFECT -> UserProvider on user change')
       toggleTheme(user.theme)
       i18n.changeLanguage(user.language)
+    } else {
+      toggleTheme('light')
+      i18n.changeLanguage('en_US')
     }
   }, [user])
 
