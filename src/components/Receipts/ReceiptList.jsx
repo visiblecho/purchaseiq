@@ -1,14 +1,8 @@
 import { useEffect, useState } from 'react'
 
-import {
-  Paper,
-  List,
-  ListItemButton,
-  Box,
-  Typography,
-  CircularProgress,
-} from '@mui/material'
+import { Paper, List, ListItemButton, Box, Typography } from '@mui/material'
 
+// Descoped
 // import FilterReceiptList from './FilterReceiptList'
 
 const ReceiptList = ({
@@ -21,18 +15,15 @@ const ReceiptList = ({
   )
 
   useEffect(() => {
-    if (selectedIndex) {
-      // console.log('USE EFFECT -> ReceiptList on selectedIndex change')
-      const receiptId = receiptList[selectedIndex].id
-      setSelectedReceiptId(receiptId)
-    }
-  }, [selectedIndex])
+    console.log('ReceiptList:', receiptList)
+    console.log('selectedIndex:', selectedIndex)
+    const receiptId = receiptList[selectedIndex].id
+    setSelectedReceiptId(receiptId)
+  }, [selectedIndex, receiptList, setSelectedReceiptId])
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index)
   }
-
-  if (!receiptList) return <CircularProgress />
 
   return (
     <>
@@ -90,7 +81,7 @@ const ReceiptList = ({
                     fontVariantNumeric: 'tabular-nums',
                   }}
                 >
-                  {`${receipt.currency_primary} ${receipt.total_price}`}
+                  {`${receipt.total_price} ${receipt.currency_primary}`}
                 </Typography>
               </Box>
             </ListItemButton>

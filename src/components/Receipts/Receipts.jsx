@@ -1,7 +1,4 @@
-import { useState, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-
-import { CircularProgress, Paper, Stack, Box } from '@mui/material'
+import { Box } from '@mui/material'
 
 import UploadReceipt from './UploadReceipt.jsx'
 import ReceiptList from './ReceiptList.jsx'

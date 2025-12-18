@@ -4,7 +4,6 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  CircularProgress,
   Paper,
   Typography,
 } from '@mui/material'
@@ -13,8 +12,6 @@ import { ExpandMore } from '@mui/icons-material'
 import ReceiptItemDetail from './ReceiptItemDetail'
 
 const ReceiptItemList = ({ receipt }) => {
-  if (!receipt.items) return <CircularProgress />
-
   return (
     <Paper>
       {receipt.items.map((item) => (
@@ -31,7 +28,7 @@ const ReceiptItemList = ({ receipt }) => {
               }}
             >
               <Typography>{item.description}</Typography>
-              <Typography>{`${receipt.currency_primary} ${item.total_price}`}</Typography>
+              <Typography>{`${item.total_price} ${receipt.currency_primary}`}</Typography>
             </Box>
           </AccordionSummary>
           <AccordionDetails>

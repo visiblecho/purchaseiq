@@ -82,7 +82,7 @@ const ReceiptSummary = ({ receipt }) => {
           fontVariantNumeric: 'tabular-nums',
         }}
       >
-        {`${receipt.currency_primary} ${receipt.total_price}, ${receipt.payment_method}`}
+        {`${receipt.total_price} ${receipt.currency_primary}, ${receipt.payment_method}`}
       </Typography>
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>

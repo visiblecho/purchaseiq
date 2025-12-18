@@ -20,16 +20,20 @@ import MenuIcon from '@mui/icons-material/Menu'
 import { useUser } from '../../contexts/UserContext'
 
 const ResponsiveAppBar = () => {
+  // Routes
   const pages = [
-    { label: 'Data', path: '/data' },
-    { label: 'Insights', path: '/insights' },
-    { label: 'About', path: '/about' },
+    { label: 'Data', path: '/data', locked: true },
+    { label: 'Insights', path: '/insights', locked: true },
+    { label: 'About', path: '/about', locked: false },
   ]
   const settings = [
-    { label: 'Account', path: '/account' },
-    { label: 'Sign out', path: '/sign-out' },
+    { label: 'Account', path: '/account', locked: true },
+    { label: 'Sign up', path: '/sign-up', locked: false },
+    { label: 'Sign in', path: '/sign-in', locked: false },
+    { label: 'Sign out', path: '/sign-out', locked: true },
   ]
 
+  // Menus for routes
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
 
@@ -39,22 +43,18 @@ const ResponsiveAppBar = () => {
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget)
   }
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
   }
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
   }
 
-  const { user, loading } = useUser()
-  if (loading) return <></>
-  if (!user) return <></>
+  const { user } = useUser()
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container>
         <Toolbar disableGutters>
           <ReceiptIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
@@ -91,18 +91,20 @@ const ResponsiveAppBar = () => {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page.path}
-                  component={Link}
-                  to={page.path}
-                  onClick={handleCloseNavMenu}
-                >
-                  <Typography sx={{ textAlign: 'center' }}>
-                    {page.label}
-                  </Typography>
-                </MenuItem>
-              ))}
+              {pages
+                .filter((page) => page.locked === !!user)
+                .map((page) => (
+                  <MenuItem
+                    key={page.path}
+                    component={Link}
+                    to={page.path}
+                    onClick={handleCloseNavMenu}
+                  >
+                    <Typography sx={{ textAlign: 'center' }}>
+                      {page.label}
+                    </Typography>
+                  </MenuItem>
+                ))}
             </Menu>
           </Box>
 
@@ -122,16 +124,18 @@ const ResponsiveAppBar = () => {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page.label}
-                component={Link}
-                to={page.path}
-                sx={{ my: 2, color: 'inherit', display: 'block' }}
-              >
-                {page.label}
-              </Button>
-            ))}
+            {pages
+              .filter((page) => page.locked === !!user)
+              .map((page) => (
+                <Button
+                  key={page.label}
+                  component={Link}
+                  to={page.path}
+                  sx={{ my: 2, color: 'inherit', display: 'block' }}
+                >
+                  {page.label}
+                </Button>
+              ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -155,18 +159,20 @@ const ResponsiveAppBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem
-                  key={setting.label}
-                  component={Link}
-                  to={setting.path}
-                  onClick={handleCloseUserMenu}
-                >
-                  <Typography sx={{ textAlign: 'center' }}>
-                    {setting.label}
-                  </Typography>
-                </MenuItem>
-              ))}
+              {settings
+                .filter((setting) => setting.locked === !!user)
+                .map((setting) => (
+                  <MenuItem
+                    key={setting.label}
+                    component={Link}
+                    to={setting.path}
+                    onClick={handleCloseUserMenu}
+                  >
+                    <Typography sx={{ textAlign: 'center' }}>
+                      {setting.label}
+                    </Typography>
+                  </MenuItem>
+                ))}
             </Menu>
           </Box>
         </Toolbar>
