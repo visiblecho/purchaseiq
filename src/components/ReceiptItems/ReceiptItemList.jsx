@@ -14,7 +14,7 @@ import ReceiptItemDetail from './ReceiptItemDetail'
 const ReceiptItemList = ({ receipt }) => {
   return (
     <Paper>
-      {receipt.items.map((item) => (
+      {receipt.items?.map((item) => (
         <Accordion key={item.id}>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <Box

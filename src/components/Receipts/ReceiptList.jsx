@@ -15,8 +15,6 @@ const ReceiptList = ({
   )
 
   useEffect(() => {
-    console.log('ReceiptList:', receiptList)
-    console.log('selectedIndex:', selectedIndex)
     const receiptId = receiptList[selectedIndex].id
     setSelectedReceiptId(receiptId)
   }, [selectedIndex, receiptList, setSelectedReceiptId])

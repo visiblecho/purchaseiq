@@ -57,7 +57,7 @@ export const UserProvider = ({ children }) => {
       toggleTheme('light')
       i18n.changeLanguage('en_US')
     }
-  }, [user])
+  }, [user, toggleTheme, i18n])
 
   return (
     <UserContext.Provider value={{ user, login, logout, loading, updateUser }}>
