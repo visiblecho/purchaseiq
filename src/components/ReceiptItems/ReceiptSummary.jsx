@@ -13,6 +13,10 @@ const ReceiptSummary = ({ receipt }) => {
     )
   }
 
+  const handleOpenImage = () => {
+    window.open(`${receipt.upload_url}`, '_blank')
+  }
+
   useEffect(() => {
     if (!confirmDelete) return
     const timer = setTimeout(() => {
@@ -90,7 +94,10 @@ const ReceiptSummary = ({ receipt }) => {
           <Button onClick={handleOpenMap}>
             Map <OpenInNewIcon fontSize="inherit" />
           </Button>
-          <Button disabled>
+          <Button
+            disabled={receipt.upload_url == undefined}
+            onClick={handleOpenImage}
+          >
             View <OpenInNewIcon fontSize="inherit" />
           </Button>
           {confirmDelete ? (

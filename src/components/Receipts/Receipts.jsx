@@ -3,7 +3,12 @@ import { Box } from '@mui/material'
 import UploadReceipt from './UploadReceipt.jsx'
 import ReceiptList from './ReceiptList.jsx'
 
-const Receipts = ({ receiptList, selectedReceiptId, setSelectedReceiptId }) => {
+const Receipts = ({
+  receiptList,
+  selectedReceiptId,
+  setSelectedReceiptId,
+  setIsStaleData,
+}) => {
   return (
     <>
       <Box
@@ -17,7 +22,7 @@ const Receipts = ({ receiptList, selectedReceiptId, setSelectedReceiptId }) => {
           gap: 2,
         }}
       >
-        <UploadReceipt />
+        <UploadReceipt setIsStaleData={setIsStaleData} />
         <ReceiptList
           receiptList={receiptList}
           selectedReceiptId={selectedReceiptId}

@@ -1,9 +1,13 @@
-import { useRef } from 'react'
-import { Paper } from '@mui/material'
+import { useRef, useState } from 'react'
+import { Paper, Typography } from '@mui/material'
 
-import { uploadImage } from '../../utils/images.js'
+import { showUpload, uploadImage } from '../../utils/images.js'
+import PollingComponent from './PollingComponent.jsx'
 
-const UploadReceipt = () => {
+const UploadReceipt = ({ setIsStaleData }) => {
+  const [waiting, setWaiting] = useState(false)
+  const [uploadId, setUploadId] = useState(null)
+
   const fileInputRef = useRef(null)
 
   const handleClick = () => {
@@ -12,11 +16,17 @@ const UploadReceipt = () => {
 
   const handleFileUpload = async (file) => {
     try {
-      const uploaded = await uploadImage(file)
-      console.log('Uploaded:', uploaded)
+      const { data } = await uploadImage(file)
+      console.log('Uploaded:', data)
+      setUploadId(data.id)
+      setWaiting(true)
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const handleAnalysisCompleted = () => {
+    setIsStaleData(true)
   }
 
   const handleFileChange = (e) => {
@@ -44,16 +54,22 @@ const UploadReceipt = () => {
           justifyContent: 'center',
           alignItems: 'center',
           cursor: 'pointer',
-          // border: '2px dashed gray',
-          // minHeight: '100px',
         }}
         onClick={handleClick}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
       >
-        Drop a receipt image or click to upload
+        {waiting ? (
+          <PollingComponent
+            onData={handleAnalysisCompleted}
+            apiCall={() => showUpload(uploadId)}
+            wait_msecs="1000"
+            setWaiting={setWaiting}
+          />
+        ) : (
+          <Typography>Drop a receipt image or click to upload</Typography>
+        )}
       </Paper>
-
       <input
         ref={fileInputRef}
         type="file"

@@ -21,6 +21,7 @@ const DataView = () => {
   const [errorData, setErrorData] = useState({})
   const [isLoadingReceipts, setIsLoadingReceipts] = useState(true)
   const [isLoadingReceiptItems, setIsLoadingReceiptItems] = useState(true)
+  const [isStaleData, setIsStaleData] = useState(false)
 
   // Fetch data from backend when a user is activated
   useEffect(() => {
@@ -36,10 +37,11 @@ const DataView = () => {
         setErrorData(error.response.data)
       } finally {
         setIsLoadingReceipts(false)
+        setIsStaleData(false)
       }
     }
     getUsersReceipts()
-  }, [user])
+  }, [user, isStaleData])
 
   // Fetch data from backend when a new receipt is selected
   useEffect(() => {
@@ -80,6 +82,7 @@ const DataView = () => {
             receiptList={receiptList}
             selectedReceiptId={selectedReceiptId}
             setSelectedReceiptId={setSelectedReceiptId}
+            setIsStaleData={setIsStaleData}
           />
         )}
       </Box>
